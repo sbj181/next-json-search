@@ -1,8 +1,8 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+[Next.js](https://nextjs.org/) with JSON Sort and Filter
 
 ## Getting Started
 
-First, run the development server:
+Make sure to update and include you JSON file in the public folder. Then, run the development server:
 
 ```bash
 npm run dev
