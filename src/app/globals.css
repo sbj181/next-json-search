@@ -18,14 +18,22 @@
 
 /* Light mode styles */
 body {
-  @apply bg-slate-100 text-slate-800;
+  @apply bg-slate-100 text-slate-800 !important;
 }
 
 @media (prefers-color-scheme: dark) {
   body {
-   @apply bg-slate-800 text-slate-600;
+   @apply bg-slate-800 !important;
   }
-  
+  p {
+    @apply text-slate-600 !important;
+  }
+  h1 {
+    @apply text-slate-200 !important;
+  }
+  .toparea {
+    @apply bg-slate-800 !important;
+  }
 }
 /* body {
   color: rgb(var(--foreground-rgb));

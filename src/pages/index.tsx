@@ -1,22 +1,37 @@
 import { useState, useEffect } from 'react';
 import HospitalCard from '../components/HospitalCard';
+import HospitalRowItem from '../components/HospitalRowItem'; 
 import MultiSelectDropdown from '../components/MultiSelectDropdown';
-import hospitalsData from '../../public/hospitals.json';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
+import hospitalsData from '../../public/hospitals_CORRECT.json';
 import '../app/globals.css';
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStates, setSelectedStates] = useState<string[]>([]); // Specify the type as string[]
   const [uniqueStates, setUniqueStates] = useState<string[]>([]); // Specify the type as string[]
+  const [isGridMode, setIsGridMode] = useState(true); // State variable for tracking layout mode
+  const [isScrolled, setIsScrolled] = useState(false);
+
 
   useEffect(() => {
-    const states: string[] = Array.from(new Set(hospitalsData["Clinic Links"].map(hospital => hospital.State)));
+    const states: string[] = Array.from(new Set(hospitalsData["Clinic Links Copay_FTO"].map(hospital => hospital.State)));
     setUniqueStates(states);
   }, []);
 
-  const filteredHospitals = hospitalsData["Clinic Links"].filter(
+  useEffect(() => {
+    function handleScroll() {
+      setIsScrolled(window.scrollY > 0);
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const filteredHospitals = hospitalsData["Clinic Links Copay_FTO"].filter(
     (hospital) =>
-      (hospital["ACCOUNT\\/IDN"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (hospital["ACCOUNT\/IDN"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       hospital.Address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       hospital.City?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       hospital["Alliance Champion(s)"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -25,10 +40,15 @@ export default function Home() {
     (selectedStates.length === 0 || selectedStates.includes(hospital.State))
   );
 
+  const toggleLayoutMode = () => {
+    setIsGridMode(!isGridMode); // Toggle between grid and row/list layouts
+  };
+
   return (
-    <div className="p-4">
+    <div className="p-4 pt-40">
+     <div className={`toparea fixed top-0 bg-slate-100 left-0 w-full p-4 z-10 ${isScrolled ? 'shadow-md' : ''}`}>
       <div className='titlewrap'>
-        <h1 className='text-4xl font-bold mb-3 text-center'>JSON Search</h1>
+        <h1 className='text-4xl dark:text-slate-100 font-bold mb-3 text-center'>Hospital Search</h1>
       </div>
       <div className="flex gap-4 mb-4">
         <input
@@ -42,10 +62,18 @@ export default function Home() {
           selectedOptions={selectedStates}
           setSelectedOptions={setSelectedStates}
         />
+        <button className=' bg-slate-700 text-slate-100 transition hover:bg-slate-900 rounded-md px-4 py-3' onClick={toggleLayoutMode}>
+          {isGridMode ? <FontAwesomeIcon icon={faList} /> : <FontAwesomeIcon icon={faTh} />}
+        </button>
       </div>
-      <div className="hospital-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      </div>
+      <div className={`hospital-list ${isGridMode ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4' : 'flex flex-col'}`}>
         {filteredHospitals.map((hospital, index) => (
-          <HospitalCard key={index} hospital={hospital} />
+          isGridMode ? (
+            <HospitalCard key={index} hospital={hospital} />
+          ) : (
+            <HospitalRowItem key={index} hospital={hospital} index={index} />
+          )
         ))}
       </div>
     </div>

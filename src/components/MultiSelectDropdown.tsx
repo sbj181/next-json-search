@@ -38,7 +38,7 @@ const MultiSelectDropdown: React.FC<Props> = ({ options, selectedOptions, setSel
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="inline-flex border-2 justify-around w-full px-2 py-3 text-sm font-medium leading-5 text-gray-700 bg-white border-gray-300 rounded-md hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition ease-in-out duration-150"
+            className="inline-flex border-2 justify-between w-full px-3 py-3 text-sm font-medium leading-5 text-gray-700 bg-white border-gray-300 rounded-md hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition ease-in-out duration-150"
             aria-haspopup="listbox"
             aria-expanded="true"
             aria-labelledby="listbox-label"

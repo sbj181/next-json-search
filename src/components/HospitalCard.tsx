@@ -25,10 +25,10 @@ const HospitalCard: React.FC<HospitalCardProps> = ({ hospital }) => {
   };
 
   return (
-    <div className="bg-slate-200 dark:bg-slate-700 shadow-md rounded-lg p-4 m-2">
+    <div className="bg-slate-200 dark:bg-slate-700 shadow-md rounded-sm p-4 m-2">
         <label className='text-xs block text-slate-400'>Date Live</label>
         <p className='text-sm block mb-3'>{hospital["Date of URL Request Form Submission"]}</p>
-        <h3 className='text-xl font-bold leading-6 mb-3'>{hospital["ACCOUNT\\/IDN"]}</h3>
+        <h3 className='text-xl font-bold leading-6 mb-3'>{hospital["ACCOUNT\/IDN"]}</h3>
         <label className='text-xs block text-slate-400'>Address</label>
         <p>{hospital.Address}</p>
         <p>{hospital.City}, {hospital.State} {hospital.Zip}</p>
