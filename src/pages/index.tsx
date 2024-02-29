@@ -16,7 +16,11 @@ export default function Home() {
 
 
   useEffect(() => {
-    const states: string[] = Array.from(new Set(hospitalsData["Clinic Links Copay_FTO"].map(hospital => hospital.State)));
+    const states: string[] = Array.from(new Set(
+      hospitalsData["Clinic Links Copay_FTO"]
+        .filter(hospital => typeof hospital.State === 'string')
+        .map(hospital => hospital.State as string)
+    ));
     setUniqueStates(states);
   }, []);
 
@@ -35,9 +39,9 @@ export default function Home() {
       hospital.Address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       hospital.City?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       hospital["Alliance Champion(s)"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      hospital.State?.toString().includes(searchTerm.toLowerCase()) ||
-      hospital.Zip?.toString().includes(searchTerm)) &&
-    (selectedStates.length === 0 || selectedStates.includes(hospital.State))
+      (hospital.State && hospital.State.toString().includes(searchTerm.toLowerCase())) ||  // Check if State is defined before using toString()
+      (hospital.Zip && hospital.Zip.toString().includes(searchTerm))) &&  // Check if Zip is defined before using toString()
+    (selectedStates.length === 0 || (hospital.State && selectedStates.includes(hospital.State)))
   );
 
   const toggleLayoutMode = () => {
