@@ -25,7 +25,7 @@ const HospitalCard: React.FC<HospitalCardProps> = ({ hospital }) => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 m-2">
+    <div className="bg-slate-200 dark:bg-slate-700 shadow-md rounded-lg p-4 m-2">
         <label className='text-xs block text-slate-400'>Date Live</label>
         <p className='text-sm block mb-3'>{hospital["Date of URL Request Form Submission"]}</p>
         <h3 className='text-xl font-bold leading-6 mb-3'>{hospital["ACCOUNT\\/IDN"]}</h3>
@@ -37,7 +37,7 @@ const HospitalCard: React.FC<HospitalCardProps> = ({ hospital }) => {
         <label className='mt-2 block text-xs text-slate-400'>URL</label>
         {hospital["Production URL"] && (
           <div>
-            <div className='overflow-scroll h-10 bg-slate-100 p-1 rounded-s block mb-2'>
+            <div className='overflow-scroll h-10 dark:bg-slate-800 bg-slate-100 p-1 rounded-s block mb-2'>
               <a className="text-sky-700 break-words block text-xs mb-2" href={hospital["Production URL"]} target='_blank'>{hospital["Production URL"]}</a>
             </div>
             <div className='flex justify-between'>
