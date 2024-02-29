@@ -1,5 +1,5 @@
 import React from 'react';
-import { Hospital } from '../../types';
+import { Hospital } from '../types';
 
 interface HospitalCardProps {
   hospital: Hospital;
@@ -9,10 +9,11 @@ const HospitalCard: React.FC<HospitalCardProps> = ({ hospital }) => {
   const handleSendEmail = () => {
     const recipient = 'recipient@example.com'; // Update with the recipient email address
     const subject = 'Production URL';
-    const body = `Please find the production URL below:%0D%0A${hospital['Production URL']}`; // URL encoded
+    const body = `Please find the production URL below:%0D%0A${hospital['Production URL'] ?? ''}`; // URL encoded
 
     window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
   };
+  
   // Function to copy URL to clipboard
   const copyToClipboard = (url: string) => {
     navigator.clipboard.writeText(url).then(() => {
@@ -40,15 +41,15 @@ const HospitalCard: React.FC<HospitalCardProps> = ({ hospital }) => {
               <a className="text-sky-700 break-words block text-xs mb-2" href={hospital["Production URL"]} target='_blank'>{hospital["Production URL"]}</a>
             </div>
             <div className='flex justify-between'>
-            <button 
-              className="mt-2 px-4 py-2 bg-sky-700 text-white rounded hover:bg-sky-900 transition"
-              onClick={() => copyToClipboard(hospital["Production URL"])}
-            >
-              Copy URL
-            </button>
-            <button onClick={handleSendEmail} className="border-2 border-sky-700 text-sky-700 hover:bg-sky-700 hover:text-sky-100 transition px-4 py-2 rounded-md mt-2 ml-2">
-              Send URL 
-            </button>
+              <button 
+                className="mt-2 px-4 py-2 bg-sky-700 text-white rounded hover:bg-sky-900 transition"
+                onClick={() => copyToClipboard(hospital["Production URL"] ?? '')}
+              >
+                Copy URL
+              </button>
+              <button onClick={handleSendEmail} className="border-2 border-sky-700 text-sky-700 hover:bg-sky-700 hover:text-sky-100 transition px-4 py-2 rounded-md mt-2 ml-2">
+                Send URL 
+              </button>
             </div>
           </div>
         )}

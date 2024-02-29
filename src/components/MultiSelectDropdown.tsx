@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 
-const MultiSelectDropdown = ({ options, selectedOptions, setSelectedOptions }) => {
+interface Props {
+  options: string[];
+  selectedOptions: string[];
+  setSelectedOptions: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+const MultiSelectDropdown: React.FC<Props> = ({ options, selectedOptions, setSelectedOptions }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleOption = (option) => {
+  const toggleOption = (option: string) => {
     if (selectedOptions.includes(option)) {
       setSelectedOptions(selectedOptions.filter((item) => item !== option));
     } else {
@@ -59,7 +65,7 @@ const MultiSelectDropdown = ({ options, selectedOptions, setSelectedOptions }) =
       {isOpen && (
         <div className="absolute mt-1 w-full rounded-md bg-white shadow-lg">
           <ul
-            tabIndex="-1"
+            tabIndex={-1} // Corrected tabIndex to use numeric value
             role="listbox"
             aria-labelledby="listbox-label"
             aria-activedescendant="listbox-item-3"

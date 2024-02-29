@@ -1,21 +1,19 @@
 import { useState, useEffect } from 'react';
 import HospitalCard from '../components/HospitalCard';
-import MultiSelectDropdown from '../components/MultiSelectDropdown'; // Import the MultiSelectDropdown component
-import hospitalsData from '../../public/hospitals.json'; // Adjust the import if your JSON is not static
+import MultiSelectDropdown from '../components/MultiSelectDropdown';
+import hospitalsData from '../../public/hospitals.json';
 import '../app/globals.css';
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedStates, setSelectedStates] = useState([]); // Change to array for multiple states
-  const [uniqueStates, setUniqueStates] = useState([]);
+  const [selectedStates, setSelectedStates] = useState<string[]>([]); // Specify the type as string[]
+  const [uniqueStates, setUniqueStates] = useState<string[]>([]); // Specify the type as string[]
 
-  // Extract unique states from your dataset
   useEffect(() => {
-    const states = new Set(hospitalsData["Clinic Links"].map(hospital => hospital.State));
-    setUniqueStates([...states]);
+    const states: string[] = Array.from(new Set(hospitalsData["Clinic Links"].map(hospital => hospital.State)));
+    setUniqueStates(states);
   }, []);
 
-  // Filter hospitals based on search term and selected state
   const filteredHospitals = hospitalsData["Clinic Links"].filter(
     (hospital) =>
       (hospital["ACCOUNT\\/IDN"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -23,8 +21,8 @@ export default function Home() {
       hospital.City?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       hospital["Alliance Champion(s)"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       hospital.State?.toString().includes(searchTerm.toLowerCase()) ||
-      hospital.Zip?.toString().includes(searchTerm)) && // Convert Zip to string and include in search
-    (selectedStates.length === 0 || selectedStates.includes(hospital.State)) // Filter by selected states
+      hospital.Zip?.toString().includes(searchTerm)) &&
+    (selectedStates.length === 0 || selectedStates.includes(hospital.State))
   );
 
   return (
@@ -39,7 +37,6 @@ export default function Home() {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full p-2 border-2 border-gray-200 rounded-md focus:outline-none focus:border-blue-500 transition-colors"
         />
-        {/* Replace the checkbox with the MultiSelectDropdown */}
         <MultiSelectDropdown
           options={Array.from(uniqueStates)}
           selectedOptions={selectedStates}
@@ -48,7 +45,7 @@ export default function Home() {
       </div>
       <div className="hospital-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {filteredHospitals.map((hospital, index) => (
-          <HospitalCard key={index} hospital={hospital} /> // Use index as key for lack of unique identifier
+          <HospitalCard key={index} hospital={hospital} />
         ))}
       </div>
     </div>
