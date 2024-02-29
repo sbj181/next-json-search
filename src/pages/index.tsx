@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import HospitalCard from '../components/HospitalCard';
+import MultiSelectDropdown from '../components/MultiSelectDropdown'; // Import the MultiSelectDropdown component
 import hospitalsData from '../../public/hospitals.json'; // Adjust the import if your JSON is not static
 import '../app/globals.css';
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedState, setSelectedState] = useState('');
+  const [selectedStates, setSelectedStates] = useState([]); // Change to array for multiple states
   const [uniqueStates, setUniqueStates] = useState([]);
 
   // Extract unique states from your dataset
@@ -18,12 +19,13 @@ export default function Home() {
   const filteredHospitals = hospitalsData["Clinic Links"].filter(
     (hospital) =>
       (hospital["ACCOUNT\\/IDN"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      hospital.Address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       hospital.City?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       hospital["Alliance Champion(s)"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       hospital.State?.toString().includes(searchTerm.toLowerCase()) ||
       hospital.Zip?.toString().includes(searchTerm)) && // Convert Zip to string and include in search
-    (selectedState ? hospital.State === selectedState : true) // Filter by state if one is selected
-);
+    (selectedStates.length === 0 || selectedStates.includes(hospital.State)) // Filter by selected states
+  );
 
   return (
     <div className="p-4">
@@ -37,16 +39,12 @@ export default function Home() {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full p-2 border-2 border-gray-200 rounded-md focus:outline-none focus:border-blue-500 transition-colors"
         />
-        <select
-          className="p-2 border-2 border-gray-200 rounded-md focus:outline-none focus:border-blue-500 transition-colors"
-          value={selectedState}
-          onChange={(e) => setSelectedState(e.target.value)}
-        >
-          <option value="">Select a State</option>
-          {uniqueStates.sort().map((state) => (
-            <option key={state} value={state}>{state}</option>
-          ))}
-        </select>
+        {/* Replace the checkbox with the MultiSelectDropdown */}
+        <MultiSelectDropdown
+          options={Array.from(uniqueStates)}
+          selectedOptions={selectedStates}
+          setSelectedOptions={setSelectedStates}
+        />
       </div>
       <div className="hospital-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {filteredHospitals.map((hospital, index) => (
