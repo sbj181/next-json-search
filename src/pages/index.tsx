@@ -5,6 +5,7 @@ import MultiSelectDropdown from '../components/MultiSelectDropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
 import hospitalsData from '../../public/hospitals_CORRECT.json';
+import ScrollToTopButton from '../components/ScrollToTopButton';
 import '../app/globals.css';
 
 export default function Home() {
@@ -50,11 +51,13 @@ export default function Home() {
 
   return (
     <div className="p-4 pt-40">
+            <ScrollToTopButton />
+
      <div className={`toparea fixed top-0 bg-slate-100 left-0 w-full p-4 z-10 ${isScrolled ? 'shadow-md' : ''}`}>
       <div className='titlewrap'>
-        <h1 className='text-4xl dark:text-slate-100 font-bold mb-3 text-center'>Hospital Search</h1>
+        <h1 className='text-4xl dark:text-slate-100 font-bold mb-3 text-center'><a href="/">Hospital Search</a></h1>
       </div>
-      <div className="flex gap-4 mb-4">
+      <div className="flex gap-4 mb-4 w-full justify-evenly">
         <input
           type="text"
           placeholder="Search by name, city, state, or zip..."

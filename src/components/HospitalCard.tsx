@@ -24,7 +24,11 @@ const HospitalCard: React.FC<HospitalCardProps> = ({ hospital }) => {
     });
   };
 
-  return (
+   // Display "None" if "Alliance Champion(s)" is false
+   const allianceChampion = hospital["Alliance Champion(s)"] || 'None';
+
+
+   return (
     <div className="bg-slate-200 dark:bg-slate-700 shadow-md rounded-sm p-4 m-2">
         <label className='text-xs block text-slate-400'>Date Live</label>
         <p className='text-sm block mb-3'>{hospital["Date of URL Request Form Submission"]}</p>
@@ -33,12 +37,12 @@ const HospitalCard: React.FC<HospitalCardProps> = ({ hospital }) => {
         <p>{hospital.Address}</p>
         <p>{hospital.City}, {hospital.State} {hospital.Zip}</p>
         <label className='mt-2 block text-xs text-slate-400'>Alliance Champion</label>
-        <p className="text-sm mb-2">{hospital["Alliance Champion(s)"]}</p>
+        <p className="text-sm mb-2">{hospital["Alliance Champion(s)"] || 'None'}</p>
         <label className='mt-2 block text-xs text-slate-400'>URL</label>
-        {hospital["Production URL"] && (
+        {hospital["Production URL"] ? (
           <div>
             <div className='overflow-scroll h-10 dark:bg-slate-800 bg-slate-100 p-1 rounded-s block mb-2'>
-              <a className="text-sky-700 break-words block text-xs mb-2" href={hospital["Production URL"]} target='_blank'>{hospital["Production URL"]}</a>
+              <a className="text-sky-700 break-words block text-xs mb-2" href={hospital["Production URL"]} target='_blank' rel="noopener noreferrer">{hospital["Production URL"]}</a>
             </div>
             <div className='flex justify-between'>
               <button 
@@ -47,12 +51,12 @@ const HospitalCard: React.FC<HospitalCardProps> = ({ hospital }) => {
               >
                 Copy URL
               </button>
-              <button onClick={handleSendEmail} className="border-2 border-sky-700 text-sky-700 hover:bg-sky-700 hover:text-sky-100 transition px-4 py-2 rounded-md mt-2 ml-2">
+              <button onClick={handleSendEmail} className="border-2 border-emerald-700 text-emerald-700 hover:bg-emerald-700 hover:text-sky-100 transition px-4 py-2 rounded-md mt-2 ml-2">
                 Send URL 
               </button>
             </div>
           </div>
-        )}
+        ) : <p className="text-sm">None found</p>} {/* Display "None found" if no URL */}
     </div>
   );
 };
