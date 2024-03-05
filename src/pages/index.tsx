@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import HospitalCard from '../components/HospitalCard';
 import HospitalRowItem from '../components/HospitalRowItem'; 
 import MultiSelectDropdown from '../components/MultiSelectDropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
-import hospitalsData from '../../public/hospitals_CORRECT.json';
+import hospitalsData from '../../public/hospitals_DEMO.json';
 import ScrollToTopButton from '../components/ScrollToTopButton';
 import '../app/globals.css';
 
@@ -36,14 +37,20 @@ export default function Home() {
 
   const filteredHospitals = hospitalsData["Clinic Links Copay_FTO"].filter(
     (hospital) =>
-      (hospital["ACCOUNT\/IDN"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (hospital["Date of URL Request Form Submission"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       hospital.Address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       hospital.City?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      hospital.State?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (hospital.Zip && hospital.Zip.toString().includes(searchTerm.toLowerCase())) ||
+      hospital["ACCOUNT\/IDN"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      hospital["Request Form Completed / Approved"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       hospital["Alliance Champion(s)"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (hospital.State && hospital.State.toString().includes(searchTerm.toLowerCase())) ||  // Check if State is defined before using toString()
-      (hospital.Zip && hospital.Zip.toString().includes(searchTerm))) &&  // Check if Zip is defined before using toString()
+      
+      hospital["Production URL"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (hospital["Live Date"] && hospital["Live Date"].toString().includes(searchTerm))) &&
     (selectedStates.length === 0 || (hospital.State && selectedStates.includes(hospital.State)))
   );
+  
 
   const toggleLayoutMode = () => {
     setIsGridMode(!isGridMode); // Toggle between grid and row/list layouts
@@ -55,7 +62,7 @@ export default function Home() {
 
      <div className={`toparea fixed top-0 bg-slate-100 left-0 w-full p-4 z-10 ${isScrolled ? 'shadow-md' : ''}`}>
       <div className='titlewrap'>
-        <h1 className='text-4xl dark:text-slate-100 font-bold mb-3 text-center'><a href="/">Hospital Search</a></h1>
+        <h1 className='text-4xl dark:text-slate-100 font-bold mb-3 text-center'><Link href="/">Hospital Search</Link></h1>
       </div>
       <div className="flex gap-4 mb-4 w-full justify-evenly">
         <input

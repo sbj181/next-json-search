@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { Hospital } from '../types';
 
 interface HospitalCardProps {
@@ -42,7 +43,7 @@ const HospitalCard: React.FC<HospitalCardProps> = ({ hospital }) => {
         {hospital["Production URL"] ? (
           <div>
             <div className='overflow-scroll h-10 dark:bg-slate-800 bg-slate-100 p-1 rounded-s block mb-2'>
-              <a className="text-sky-700 break-words block text-xs mb-2" href={hospital["Production URL"]} target='_blank' rel="noopener noreferrer">{hospital["Production URL"]}</a>
+              <Link className="text-sky-700 break-words block text-xs mb-2" href={hospital["Production URL"]} target='_blank' rel="noopener noreferrer">{hospital["Production URL"]}</Link>
             </div>
             <div className='flex justify-between'>
               <button 

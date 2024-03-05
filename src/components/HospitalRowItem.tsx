@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 
 // Define the interface for the props
@@ -43,7 +44,7 @@ interface HospitalRowItemProps {
           <div className='text-xs block text-slate-400'>URL</div>
           {hospital["Production URL"] ? (
             <div className='overflow-scroll h-10 dark:bg-slate-800 bg-slate-100 p-1 rounded-s block mb-2'>
-              <a className="text-sky-700 break-words block text-xs mb-2" href={hospital["Production URL"]} target='_blank'>{hospital["Production URL"]}</a>
+              <Link className="text-sky-700 break-words block text-xs mb-2" href={hospital["Production URL"]} target='_blank'>{hospital["Production URL"]}</Link>
             </div>
           ) : (
             <div className='text-sm'>No URL Found</div>
