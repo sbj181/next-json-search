@@ -43,7 +43,7 @@ export default function Home() {
       hospital.State?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (hospital.Zip && hospital.Zip.toString().includes(searchTerm.toLowerCase())) ||
       hospital["ACCOUNT\/IDN"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      hospital["Request Form Completed / Approved"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      /* hospital["Request Form Completed \/ Approved"]?.toLowerCase().includes(searchTerm.toLowerCase()) || */
       hospital["Alliance Champion(s)"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       
       hospital["Production URL"]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
